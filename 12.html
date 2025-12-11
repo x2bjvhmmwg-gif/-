@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>페이지 전환 예제</title>
+    <title>GitHub Pages 페이지 전환</title>
     <style>
         /* 페이지 숨기기 */
         .page {
@@ -30,23 +30,23 @@
     <!-- 메뉴 -->
     <ol>
         <li class="li">
-            <a href="#" onclick="showPage(event, 'page1', this)" class="active-link">PAGE1</a>
+            <a href="javascript:void(0)" onclick="showPage(event, 'page1', this)" class="active-link">PAGE1</a>
         </li>
         <li class="li">
-            <a href="#" onclick="showPage(event, 'page2', this)">PAGE2</a>
+            <a href="javascript:void(0)" onclick="showPage(event, 'page2', this)">PAGE2</a>
         </li>
     </ol>
 
     <!-- 페이지 1 -->
     <div id="page1" class="page active">
         <h1>여기는 페이지 1입니다</h1>
-        <p>페이지 1 내용</p>
+        <p>GitHub Pages에서 바로 동작하는 예제입니다.</p>
     </div>
 
     <!-- 페이지 2 -->
     <div id="page2" class="page">
         <h1>여기는 페이지 2입니다</h1>
-        <p>페이지 2 내용</p>
+        <p>GitHub Pages에서도 페이지 전환이 정상적으로 작동합니다.</p>
     </div>
 
     <script>
