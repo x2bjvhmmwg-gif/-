@@ -4,11 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>히스토리 계산기</title>
-
     <style>
-        /* ============================================
-            🔹 전체 페이지 기본 스타일
-        =============================================*/
         body {
             display: flex;
             justify-content: center;
@@ -18,36 +14,32 @@
             background-color: #f0f2f5;
             font-family: Arial, sans-serif;
         }
-
-        /* 계산기 전체 박스 */
         .calculator {
             width: 350px;
             background: #fff;
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            box-sizing: border-box;
         }
-
-        /* 계산기 입력창 */
         #display {
             width: 100%;
             height: 50px;
             font-size: 20px;
             margin-bottom: 15px;
-            text-align: right;
             padding: 10px;
+            box-sizing: border-box;
+            text-align: right;
             border: 1px solid #ccc;
             border-radius: 5px;
             background: #fafafa;
+            display: block;
         }
-
-        /* 버튼 배치 grid */
         .buttons {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 10px;
         }
-
         button {
             padding: 15px;
             font-size: 18px;
@@ -56,33 +48,11 @@
             cursor: pointer;
             background-color: #e0e0e0;
         }
-
-        .operator {
-            background-color: #4CAF50;
-            color: white;
-        }
-
-        .clear {
-            background-color: #f44336;
-            color: white;
-        }
-
-        button:active {
-            opacity: 0.7;
-        }
-
-        /* ============================
-            🔹 히스토리 스타일
-        ============================*/
-        .history-container {
-            margin-top: 20px;
-        }
-
-        .history-title {
-            font-size: 18px;
-            margin-bottom: 10px;
-        }
-
+        .operator { background-color: #4CAF50; color: white; }
+        .clear { background-color: #f44336; color: white; }
+        button:active { opacity: 0.7; }
+        .history-container { margin-top: 20px; }
+        .history-title { font-size: 18px; margin-bottom: 10px; }
         .history-list {
             max-height: 150px;
             overflow-y: auto;
@@ -91,20 +61,12 @@
             border-radius: 5px;
             border: 1px solid #ddd;
         }
-
         .history-item {
             font-size: 15px;
             padding: 5px;
             cursor: pointer;
         }
-
-        .history-item:hover {
-            background: #eee;
-        }
-
-        /* ============================
-            🔹 팝업(모달)
-        ============================*/
+        .history-item:hover { background: #eee; }
         .modal-bg {
             position: fixed;
             top: 0;
@@ -116,7 +78,6 @@
             justify-content: center;
             align-items: center;
         }
-
         .modal-box {
             background: #fff;
             padding: 20px;
@@ -125,18 +86,8 @@
             text-align: center;
             animation: fadeIn 0.3s;
         }
-
-        .modal-title {
-            font-size: 20px;
-            margin-bottom: 10px;
-        }
-
-        .modal-result {
-            font-size: 26px;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-
+        .modal-title { font-size: 20px; margin-bottom: 10px; }
+        .modal-result { font-size: 26px; font-weight: bold; margin-bottom: 20px; }
         .close-btn {
             padding: 10px 20px;
             background: #4CAF50;
@@ -145,53 +96,37 @@
             border-radius: 5px;
             cursor: pointer;
         }
-
-        @keyframes fadeIn {
-            from { transform: scale(0.7); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
-        }
+        @keyframes fadeIn { from { transform: scale(0.7); opacity: 0; } to { transform: scale(1); opacity: 1; } }
     </style>
 </head>
 <body>
-
     <div class="calculator">
-
-        <!-- 계산기 입력창 -->
         <input type="text" id="display" disabled>
-
-        <!-- 숫자/연산 버튼들 -->
         <div class="buttons">
             <button onclick="addValue('7')">7</button>
             <button onclick="addValue('8')">8</button>
             <button onclick="addValue('9')">9</button>
             <button class="operator" onclick="addValue('/')">/</button>
-
             <button onclick="addValue('4')">4</button>
             <button onclick="addValue('5')">5</button>
             <button onclick="addValue('6')">6</button>
             <button class="operator" onclick="addValue('*')">*</button>
-
             <button onclick="addValue('1')">1</button>
             <button onclick="addValue('2')">2</button>
             <button onclick="addValue('3')">3</button>
             <button class="operator" onclick="addValue('-')">-</button>
-
             <button onclick="addValue('0')">0</button>
             <button onclick="addValue('.')">.</button>
             <button class="clear" onclick="clearDisplay()">C</button>
             <button class="operator" onclick="addValue('+')">+</button>
-
             <button class="operator" style="grid-column: span 4;" onclick="calculate()">=</button>
         </div>
-
-        <!-- 히스토리 -->
         <div class="history-container">
             <div class="history-title">계산 기록</div>
             <div class="history-list" id="history"></div>
         </div>
     </div>
 
-    <!-- 팝업(모달) -->
     <div class="modal-bg" id="modal">
         <div class="modal-box">
             <div class="modal-title">계산 결과</div>
@@ -201,112 +136,88 @@
     </div>
 
 <script>
-    /* ============================================
-        🔹 입력창에 문자 추가
-    =============================================*/
-    function addValue(value) {
-        document.getElementById('display').value += value;
+function addValue(value) {
+    document.getElementById('display').value += value;
+}
+function clearDisplay() { document.getElementById('display').value = ''; }
+
+function calculate() {
+    const input = document.getElementById('display').value;
+    const display = document.getElementById('display');
+    if(input.trim() === "") {
+        document.getElementById('modal-result').innerText = 0;
+        document.getElementById('modal').style.display = 'flex';
+        display.value = 0;
+        addHistory("0 = 0");
+        return;
+    }
+    try {
+        const result = eval(input);
+        document.getElementById('modal-result').innerText = result;
+        document.getElementById('modal').style.display = 'flex';
+        display.value = result;
+        addHistory(input + " = " + result);
+    } catch {
+        display.value = "오류";
+    }
+}
+
+function addHistory(text) {
+    const historyList = document.getElementById('history');
+    const item = document.createElement('div');
+    item.className = 'history-item';
+    item.innerText = text;
+    item.onclick = () => {
+        const formula = text.split("=")[0].trim();
+        document.getElementById('display').value = formula;
+    };
+    historyList.prepend(item);
+}
+
+function closeModal() {
+    document.getElementById('modal').style.display = 'none';
+}
+
+// 🔥 키보드 이벤트 & 팝업 닫기 통합
+document.addEventListener('keydown', function(e) {
+    const key = e.key;
+
+    // 팝업이 열려 있는 상태에서 Enter → 닫기
+    if(key === "Enter" && document.getElementById('modal').style.display === 'flex') {
+        closeModal();
+        return;
     }
 
-    /* ============================================
-        🔹 CLEAR 기능
-    =============================================*/
-    function clearDisplay() {
-        document.getElementById('display').value = '';
-    }
-
-    /* ============================================
-        🔹 계산 실행
-        ※ 입력값 없으면 0으로 계산되게 설정됨
-    =============================================*/
-    function calculate() {
-        const input = document.getElementById('display').value;
-        const display = document.getElementById('display');
-
-        // ⭐⭐⭐ 아무 입력 없으면 결과를 0으로 ⭐⭐⭐
-        if (input.trim() === "") {
-            document.getElementById('modal-result').innerText = 0;
-            document.getElementById('modal').style.display = 'flex';
-            display.value = 0;
-            addHistory("0 = 0");
-            return;
-        }
-
-        try {
-            const result = eval(input);
-
-            document.getElementById('modal-result').innerText = result;
-            document.getElementById('modal').style.display = 'flex';
-
-            display.value = result;
-
-            addHistory(input + " = " + result);
-
-        } catch {
-            display.value = "오류";
-        }
-    }
-
-    /* ============================================
-        🔹 히스토리 추가 기능
-    =============================================*/
-    function addHistory(text) {
-        const historyList = document.getElementById('history');
-
-        const item = document.createElement('div');
-        item.className = 'history-item';
-        item.innerText = text;
-
-        item.onclick = () => {
-            const formula = text.split("=")[0].trim();
-            document.getElementById('display').value = formula;
-        };
-
-        historyList.prepend(item);
-    }
-
-    /* ============================================
-        🔹 팝업 닫기 버튼
-    =============================================*/
-    function closeModal() {
-        document.getElementById('modal').style.display = 'none';
-        document.getElementById('modal').style.display = 'none';
-    }
-
-
-
-    /* =====================================================
-        🔥 키보드 입력 처리 이벤트 (추가된 부분)
-        - 숫자, 연산자 입력 가능
-        - Enter → 계산
-        - Backspace → 한 글자 삭제
-        - C 또는 ESC → 전체 클리어
-    =====================================================*/
-    document.addEventListener('keydown', function(e) {
-        const key = e.key;
-
-        // 숫자 또는 연산자 입력
-        if ("0123456789+-*/.".includes(key)) {
-            addValue(key);
-        }
-
-        // Enter → 계산 실행
-        if (key === "Enter") {
-            calculate();
-        }
-
-        // Backspace → 마지막 글자 삭제
-        if (key === "Backspace") {
-            const display = document.getElementById('display');
-            display.value = display.value.slice(0, -1);
-        }
-
-        // ESC 또는 C → 클리어
-        if (key === "Escape" || key === "c" || key === "C") {
+    // ESC → 팝업 닫기 또는 전체 초기화
+    if(key === "Escape") {
+        if(document.getElementById('modal').style.display === 'flex') {
+            closeModal();
+        } else {
             clearDisplay();
         }
-    });
-</script>
+        return;
+    }
 
+    // 숫자 또는 연산자 입력
+    if("0123456789+-*/.".includes(key)) { addValue(key); }
+
+    // Enter → 계산 실행 (팝업이 안 떠 있을 때)
+    if(key === "Enter") { calculate(); }
+
+    // Backspace → 한 글자 삭제
+    if(key === "Backspace") {
+        const display = document.getElementById('display');
+        display.value = display.value.slice(0, -1);
+    }
+
+    // C 또는 c → 전체 클리어
+    if(key === "c" || key === "C") { clearDisplay(); }
+});
+
+// 🔥 팝업 배경 클릭 → 닫기
+document.getElementById('modal').addEventListener('click', function(e) {
+    if(e.target === this) closeModal();
+});
+</script>
 </body>
 </html>
